@@ -7,6 +7,9 @@ class BooksController < ApplicationController
     @book_comment = BookComment.new
     @currentUserEntry=Entry.where(user_id: current_user.id)
     @userEntry=Entry.where(user_id: @books.user.id)
+    unless ViewCount.find_by(user_id: current_user.id, book_id: @books.id)
+      current_user.view_counts.create(book_id: @books.id)
+    end
     if @books.user.id == current_user.id
     else
       @currentUserEntry.each do |cu|
